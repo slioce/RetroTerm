@@ -2,13 +2,9 @@
 
 A terminal emulator for macOS that looks like a 1980s CRT monitor. Green, amber or white phosphor, curved glass, scanlines and glow, chunky bitmap text and the click of a mechanical keyboard, around a real VT100/xterm emulator running your own shell. Everything is rendered on the GPU with Metal, and every effect can be turned off on its own.
 
-```
-  *** RETROTERM v1.0 ***
-
-  (C) 1984 Alessandro Lioce Systems
-
-  ~ $ ▮
-```
+<p align="center">
+  <img src="docs/screenshots/green.png" alt="RetroTerm with the default green phosphor: boot banner, directory listing, calendar and text attributes on a curved, scanlined screen" width="880">
+</p>
 
 ## Features
 
@@ -21,6 +17,14 @@ A terminal emulator for macOS that looks like a 1980s CRT monitor. Green, amber 
 - **Mechanical keyboard click**, on by default: recorded tactile-switch samples, deeper for Space, Return and modifiers, or a synthesised click. Volume control in Preferences.
 - **Boot banner** printed in every new tab before the shell starts, with editable text. Audible and visual bell, block, underline or bar cursor with optional blink, copy on select.
 - Native Swift, no third-party dependencies, no network access.
+
+## Screenshots
+
+Amber phosphor with ANSI colours tinted by the phosphor, and white phosphor with full ANSI colours:
+
+| Amber (P3), tinted colours | White (P4), full colours |
+|---|---|
+| ![RetroTerm with amber phosphor and tinted ANSI colours](docs/screenshots/amber.png) | ![RetroTerm with white phosphor and full ANSI colours](docs/screenshots/white.png) |
 
 ## Requirements
 
@@ -48,6 +52,10 @@ Preferences has three tabs:
 - **Appearance**: phosphor and brightness; font, size, pixel scale, antialiasing and line spacing; cursor shape and blink; screen margin, fixed grid size, tab bar, boot banner.
 - **CRT Effects**: the master switch and one row per effect, with its intensity; scanline period and corner radius.
 - **Terminal**: shell path (empty means your login shell), scrollback lines, Option as Meta, copy on select; audible and visual bell, keyboard click sound and volume.
+
+| Appearance | CRT Effects | Terminal |
+|---|---|---|
+| ![Appearance preferences: phosphor, font, cursor](docs/screenshots/settings-appearance.png) | ![CRT Effects preferences: one switch and slider per effect](docs/screenshots/settings-crt-effects.png) | ![Terminal preferences: shell, behaviour, sound](docs/screenshots/settings-terminal.png) |
 
 Settings are stored in the app's user defaults and survive upgrades: a setting the running version does not know is ignored, a missing one keeps its default.
 
