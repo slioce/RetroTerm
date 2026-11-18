@@ -188,9 +188,13 @@ struct TerminalSettings: View {
     var body: some View {
         Form {
             Section("Shell") {
-                TextField("Shell path (empty = login shell)", text: $settings.config.shellPath)
-                    .font(.system(.body, design: .monospaced))
-                Text("Applies to new tabs. Current login shell: \(RetroTermCoreShell.defaultShell)")
+                LabeledContent("Shell path") {
+                    TextField("", text: $settings.config.shellPath, prompt: Text("Login shell"))
+                        .labelsHidden()
+                        .font(.system(.body, design: .monospaced))
+                        .frame(maxWidth: .infinity)
+                }
+                Text("Leave empty to use your login shell (\(RetroTermCoreShell.defaultShell)). Applies to new tabs.")
                     .font(.caption).foregroundStyle(.secondary)
             }
             Section("Behaviour") {
