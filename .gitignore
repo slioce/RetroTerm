@@ -1,0 +1,10 @@
+# Build output
+build/
+.build/
+.swiftpm/
+DerivedData/
+
+# Xcode user state
+xcuserdata/
+
+.DS_Store
