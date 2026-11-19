@@ -21,16 +21,17 @@ SIGN_IDENTITY=... make dmg                   # notarised DMG (Scripts/notarize.s
 
 If `xcode-select` points at the Command Line Tools, `swift test` fails with "unable to resolve module dependency: 'XCTest'": run it as `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test`.
 
-Only `RetroTermCore` has tests. The app target has none; verify UI/rendering changes by rebuilding the bundle, relaunching (`pkill -x RetroTerm; open build/RetroTerm.app`) and inspecting a full-resolution crop of the window (`screencapture -x`). A downscaled screenshot hides glyph artefacts. If a copy is installed in `/Applications`, `tell application "RetroTerm"` in AppleScript launches that one: drive the app via `System Events` process "RetroTerm" and check `ps` shows the `build/` binary.
+Only `RetroTermCore` and `RetroBasic` have tests. The app target has none; verify UI/rendering changes by rebuilding the bundle, relaunching (`pkill -x RetroTerm; open build/RetroTerm.app`) and inspecting a full-resolution crop of the window (`screencapture -x`). A downscaled screenshot hides glyph artefacts. If a copy is installed in `/Applications`, `tell application "RetroTerm"` in AppleScript launches that one: drive the app via `System Events` process "RetroTerm" and check `ps` shows the `build/` binary.
 
 Preferences are a single JSON blob under `defaults` domain `com.alessandrolioce.RetroTerm`, key `RetroTerm.config`. To test a setting without the UI, `defaults export` the domain, edit the JSON, `defaults import` it, then relaunch.
 
 ## Architecture
 
-Three targets, strictly layered:
+Four targets, strictly layered:
 
 - `CPTY` (C): `forkpty` spawn, window-size ioctl, cwd lookup of a pid. Nothing else lives in C.
 - `RetroTermCore` (Swift, no AppKit): the emulator. Testable headlessly.
+- `RetroBasic` (Swift, depends on `RetroTermCore` only): the BASIC easter egg. Testable headlessly.
 - `RetroTerm` (SwiftUI + AppKit + Metal): windows, tabs, input, rendering, settings.
 
 ### Emulator core
@@ -59,6 +60,31 @@ Glyph metrics live in `Renderer.cellWidth/cellHeight` (device pixels, already mu
 - `.stretch` / `.fit`: cols/rows fixed (`fixedCols/fixedRows`), font magnified to the displayed row height, remaining stretch applied via `cellScale`, scanline period multiplied by the same magnification. Bitmap pixel size deliberately does not scale.
 
 Anything that maps between screen points and cells (mouse hit-testing, IME rect, precise scrolling) must go through `Renderer.cell(at:)`, `viewRect(col:row:)`, `displayedCellHeight`, which account for both the curvature warp and `cellScale`.
+
+### BASIC easter egg (`RetroBasic`)
+
+With the C64 theme selected, typing `basic` at the shell prompt and pressing Return starts a small
+Commodore-style BASIC V2 in the tab; `SYS 64738` or `EXIT` returns to the shell. Three layers:
+
+- `BasicMachine`: the interpreter, driven in steps. `submitLine` takes a typed line, `step(budget:)`
+  runs up to N statements and returns `.ready`, `.running`, `.awaitingLine` (INPUT) or `.exit`;
+  `supplyLine` answers an INPUT, `interrupt` is Ctrl-C. It never blocks, so tests are synchronous.
+  Lines are stored as text and parsed lazily; there is no keyword crunching and no ROM-exact
+  number formatting (a deliberate subset: no DATA/READ, GET, CONT, DEF FN, PEEK/POKE, `%` variables).
+- `BasicConsole`: the C64 screen editor over a `BasicScreen`. Typed characters overwrite in upper
+  case, arrows and Home move the terminal cursor, Return hands the logical row under the cursor to
+  the machine (a LISTed line can be edited in place), Ctrl-C breaks. `TerminalScreen` adapts a
+  `Terminal`, under the session lock in the app and unlocked in tests.
+- `BasicHost` (app target): one serial queue per session that feeds keys to the console and
+  advances a running program in 32-statement slices with a 1 ms pause.
+
+Detection lives in `TerminalSession.send(_:)`, the single funnel for typed and pasted bytes: it
+tracks the current typed line and, on Return, checks the theme, that no alternate screen or mouse
+mode is active, and that `basic` sits on screen right before the cursor. It then sends Ctrl-U to
+the shell (which forgets the word), holds PTY output in `heldOutput` (the boot-banner mechanism,
+capped at 1 MB) while BASIC runs, and on exit releases it, clears the screen and sends Ctrl-L so
+the prompt redraws. Known limit: typing exactly `basic` inside `cat` or a REPL without alternate
+screen also triggers it.
 
 ### Keyboard sound
 

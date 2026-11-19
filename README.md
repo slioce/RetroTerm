@@ -12,6 +12,7 @@ A terminal emulator for macOS that looks like a 1980s CRT monitor. Green, amber 
 - **Phosphors**: green (P1), amber (P3), white (P4), the light-blue-on-blue of a C64, or your own colours. Colour mode can be authentic monochrome, ANSI colours tinted by the phosphor, or full ANSI colours.
 - **Bitmap text**: any monospace font, rasterised at a reduced size and magnified 2×, 3× or 4× for chunky pixels, or drawn at native resolution. Antialiasing is optional.
 - **Fixed grid**: keep a classic 80×24 (or any size) and scale the picture to the window, stretched or with its aspect ratio kept, so a full-screen window fills like the raster of a real monitor. Or let the grid reflow with the window, like any other terminal.
+- **An easter egg**: with the C64 theme, type `basic` at the prompt. `SYS 64738` brings the shell back.
 - **A real terminal**: VT100/xterm emulation with scrollback, scroll regions, SGR colours and attributes, wide characters, bracketed paste, application cursor keys, OSC title, working directory and clipboard, Option as Meta.
 - **Tabs**: new tabs open in the working directory of the shell you are in.
 - **Mechanical keyboard click**, on by default: recorded tactile-switch samples, deeper for Space, Return and modifiers, or a synthesised click. Volume control in Preferences.
