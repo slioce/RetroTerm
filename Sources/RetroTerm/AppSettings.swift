@@ -143,7 +143,7 @@ struct TerminalConfig: Codable, Equatable {
     /// Text fed to a new tab before the shell starts. Plain newlines; the session turns them into CR LF.
     static let defaultBootBanner = """
 
-      *** RETROTERM v1.0 ***
+      *** RETROTERM v1.1 ***
 
       (C) 1984 Alessandro Lioce Systems
 
