@@ -7,7 +7,7 @@ let package = Package(
     targets: [
         .target(name: "CPTY", path: "Sources/CPTY"),
         .target(name: "RetroTermCore", dependencies: ["CPTY"], path: "Sources/RetroTermCore"),
-        .target(name: "RetroBasic", path: "Sources/RetroBasic"),
+        .target(name: "RetroBasic", dependencies: ["RetroTermCore"], path: "Sources/RetroBasic"),
         .executableTarget(
             name: "RetroTerm",
             dependencies: ["RetroTermCore", "RetroBasic"],
