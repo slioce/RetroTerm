@@ -2,13 +2,14 @@ import SwiftUI
 import Combine
 
 enum PhosphorTheme: String, Codable, CaseIterable, Identifiable {
-    case green, amber, white, custom
+    case green, amber, white, c64, custom
     var id: String { rawValue }
     var label: String {
         switch self {
         case .green: return "Green phosphor (P1)"
         case .amber: return "Amber phosphor (P3)"
         case .white: return "White phosphor (P4)"
+        case .c64: return "Commodore 64"
         case .custom: return "Custom"
         }
     }
@@ -125,6 +126,7 @@ struct TerminalConfig: Codable, Equatable {
         case .green: return RGB(0.20, 1.0, 0.35)
         case .amber: return RGB(1.0, 0.69, 0.0)
         case .white: return RGB(0.90, 0.92, 0.95)
+        case .c64: return RGB(0.55, 0.50, 0.92)
         case .custom: return customPhosphor
         }
     }
@@ -133,6 +135,7 @@ struct TerminalConfig: Codable, Equatable {
         case .green: return RGB(0.015, 0.06, 0.025)
         case .amber: return RGB(0.07, 0.04, 0.0)
         case .white: return RGB(0.04, 0.04, 0.05)
+        case .c64: return RGB(0.17, 0.13, 0.45)
         case .custom: return customBackground
         }
     }

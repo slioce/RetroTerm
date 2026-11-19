@@ -241,13 +241,15 @@ final class Renderer {
 
     private func resolveFg(_ c: TermColor, theme: Theme) -> SIMD3<Float> {
         guard let real = rgb(c) else { return theme.phosphor }
+        // Dim colours fade towards the screen background, not towards black: on a near-black
+        // background the two are the same, on a bright one (Commodore 64) they would vanish.
         switch theme.mode {
         case .monochrome:
             let l = luma(real)
-            return theme.phosphor * (0.38 + 0.62 * pow(l, 0.7))
+            return simd_mix(theme.background, theme.phosphor, SIMD3(repeating: 0.38 + 0.62 * pow(l, 0.7)))
         case .tinted:
             let l = luma(real)
-            return real * 0.45 + theme.phosphor * (0.3 + 0.7 * l) * 0.55
+            return real * 0.45 + simd_mix(theme.background, theme.phosphor, SIMD3(repeating: 0.3 + 0.7 * l)) * 0.55
         case .full:
             return real
         }

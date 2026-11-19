@@ -9,7 +9,7 @@ A terminal emulator for macOS that looks like a 1980s CRT monitor. Green, amber 
 ## Features
 
 - **CRT picture**: screen curvature, scanlines, phosphor glow, vignette, flicker, noise, chromatic aberration and rounded corners, each with its own switch and intensity. ⌘⇧E turns the whole lot off and on.
-- **Phosphors**: green (P1), amber (P3), white (P4) or your own colours. Colour mode can be authentic monochrome, ANSI colours tinted by the phosphor, or full ANSI colours.
+- **Phosphors**: green (P1), amber (P3), white (P4), the light-blue-on-blue of a Commodore 64, or your own colours. Colour mode can be authentic monochrome, ANSI colours tinted by the phosphor, or full ANSI colours.
 - **Bitmap text**: any monospace font, rasterised at a reduced size and magnified 2×, 3× or 4× for chunky pixels, or drawn at native resolution. Antialiasing is optional.
 - **Fixed grid**: keep a classic 80×24 (or any size) and scale the picture to the window, stretched or with its aspect ratio kept, so a full-screen window fills like the raster of a real monitor. Or let the grid reflow with the window, like any other terminal.
 - **A real terminal**: VT100/xterm emulation with scrollback, scroll regions, SGR colours and attributes, wide characters, bracketed paste, application cursor keys, OSC title, working directory and clipboard, Option as Meta.
