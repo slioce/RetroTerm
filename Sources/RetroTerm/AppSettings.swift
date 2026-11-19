@@ -9,7 +9,7 @@ enum PhosphorTheme: String, Codable, CaseIterable, Identifiable {
         case .green: return "Green phosphor (P1)"
         case .amber: return "Amber phosphor (P3)"
         case .white: return "White phosphor (P4)"
-        case .c64: return "Commodore 64"
+        case .c64: return "C64"
         case .custom: return "Custom"
         }
     }

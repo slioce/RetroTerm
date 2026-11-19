@@ -242,7 +242,7 @@ final class Renderer {
     private func resolveFg(_ c: TermColor, theme: Theme) -> SIMD3<Float> {
         guard let real = rgb(c) else { return theme.phosphor }
         // Dim colours fade towards the screen background, not towards black: on a near-black
-        // background the two are the same, on a bright one (Commodore 64) they would vanish.
+        // background the two are the same, on a bright one (C64) they would vanish.
         switch theme.mode {
         case .monochrome:
             let l = luma(real)

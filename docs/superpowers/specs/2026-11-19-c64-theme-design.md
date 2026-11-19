@@ -1,7 +1,7 @@
-# Commodore 64 theme — design
+# C64 theme — design
 
 ## Intent
-Add a "Commodore 64" entry to the Phosphor picker: light-blue text on the blue
+Add a "C64" entry to the Phosphor picker: light-blue text on the blue
 screen of the C64 power-on prompt. Nostalgia preset, same mechanism as green/amber/white.
 
 ## Goals
@@ -15,7 +15,7 @@ screen of the C64 power-on prompt. Nostalgia preset, same mechanism as green/amb
 
 ## Approaches
 1. Tell users to pick "Custom" with the two colours. Already possible, not discoverable. Rejected.
-2. New `PhosphorTheme.c64` case with label "Commodore 64" and colours in `phosphor` / `background`.
+2. New `PhosphorTheme.c64` case with label "C64" and colours in `phosphor` / `background`.
    Chosen: no new stored properties, `PhosphorTheme` is `Codable` by raw string so old prefs decode.
 
 ## Decisions
@@ -25,7 +25,7 @@ screen of the C64 power-on prompt. Nostalgia preset, same mechanism as green/amb
   which a full-resolution screenshot measured at RGB 64/49/170 on screen.
 - Monochrome and Tinted colour modes dim ANSI colours by interpolating towards the screen background
   instead of scaling towards black. Identical on the near-black themes, needed here or `ls` colours vanish.
-- Label: "Commodore 64".
+- Label: "C64" (no company name in the UI).
 - README phosphor line mentions the new theme.
 
 ## Verified
