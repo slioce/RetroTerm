@@ -2,12 +2,32 @@ import SwiftUI
 import AppKit
 
 struct TerminalCommands: Commands {
+    /// The standard About panel with the author credits and a link to the site.
+    static func showAbout() {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        let base: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .foregroundColor: NSColor.labelColor,
+            .paragraphStyle: paragraph,
+        ]
+        var link = base
+        link[.link] = URL(string: "https://www.alessandrolioce.com")!
+        let credits = NSMutableAttributedString(string: "© 2026 ", attributes: base)
+        credits.append(NSAttributedString(string: "Alessandro Lioce", attributes: link))
+        credits.append(NSAttributedString(string: ".", attributes: base))
+        NSApp.orderFrontStandardAboutPanel(options: [.credits: credits])
+    }
+
     @FocusedValue(\.tabManager) private var tabs
     @ObservedObject private var settings = AppSettings.shared
 
     private var view: TerminalNSView? { tabs?.selected?.view }
 
     var body: some Commands {
+        CommandGroup(replacing: .appInfo) {
+            Button("About RetroTerm") { TerminalCommands.showAbout() }
+        }
         CommandGroup(after: .newItem) {
             Button("New Tab") { tabs?.newTab() }
                 .keyboardShortcut("t", modifiers: .command)
