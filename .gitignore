@@ -8,3 +8,6 @@ DerivedData/
 xcuserdata/
 
 .DS_Store
+
+# Editor state
+.vscode/
